@@ -42,10 +42,10 @@ public class Card implements Comparable<Card> {
         this.face = face;
 
         switch(suit) {
-            case 'H': glyph = HEARTS; break;
-            case 'D': glyph = DIAMONS; break;
-            case 'C': glyph = CLUBS; break;
-            case 'S': glyph = SPADES; break;
+            case 'H': glyph = HEARTS; suitValue=SUIT.HEARTS; break;
+            case 'D': glyph = DIAMONS; suitValue=SUIT.DIAMONS; break;
+            case 'C': glyph = CLUBS; suitValue=SUIT.CLUBS; break;
+            case 'S': glyph = SPADES; suitValue=SUIT.SPADES; break;
         }
     }
 
@@ -55,6 +55,10 @@ public class Card implements Comparable<Card> {
 
     public int getValue() {
         return value;
+    }
+
+    public int getSuitValue() {
+        return suitValue.getSuitCode();
     }
 
     public boolean isFaceDown() {
@@ -71,7 +75,7 @@ public class Card implements Comparable<Card> {
             return 0;
         if (this.value != c.value)
             return (this.value - c.value);
-        else return (this.suitValue.getSuitCode() - c.suitValue.getSuitCode());
+        return (this.suitValue.getSuitCode() - c.suitValue.getSuitCode());
     }
 
     @Override

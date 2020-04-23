@@ -1,7 +1,7 @@
 package playcardgame;
 
-//import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DeckBuilder {
     private ArrayList<Card> cards;
@@ -13,6 +13,7 @@ public class DeckBuilder {
             for(int j =1; j<=13; j++){
                 cards.add(new Card(suits[i],j,true));
             }
+
     }
 
     public ArrayList<Card> getCards(){

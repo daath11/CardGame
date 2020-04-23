@@ -2,10 +2,10 @@ package playcardgame;
 
 public class CardTest {
     public static void main(String[] args){
-        DeckBuilder db = new DeckBuilder();
-        Deck mazzo = new Deck(db.getCards());
-
-        mazzo.display();
+        Dealer dealer = new Dealer(4);
+        dealer.deal();
+        dealer.evaluateHandsRank();
+        dealer.display();
 
     }
 }

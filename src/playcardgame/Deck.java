@@ -9,6 +9,7 @@ public class Deck implements Serializable {
     private Stack<Card> deck;
 
     public Deck (List<Card> cards) {
+        deck = new Stack<Card>();
         for (Card pc: cards) {
             deck.push(pc);
         }
@@ -27,6 +28,7 @@ public class Deck implements Serializable {
            System.out.print(pc.toString());
        }
    }
-
-
+   public Card Draw(){
+        return deck.pop();
+   }
 }
