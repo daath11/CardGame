@@ -2,6 +2,7 @@ package playcardgame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Player {
     private static final String[] handRanks= {
@@ -16,8 +17,7 @@ public class Player {
             "Straight flush"
     };
     public static final int handSize = 5;
-    static final int[] lowAce = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-    static final int[] highAce = {2,3,4,5,6,7,8,9,10,11,12,13,1};
+
 
 
     private ArrayList<Card> hand;
@@ -39,7 +39,14 @@ public class Player {
         suitCounter = new int[4];
         lose = false;
         handRank = handRanks[0];
+        low = true;
     }
+
+    public Player (String name, ArrayList<Card> hand){
+        this(name);
+        this.hand.addAll(hand);
+    }
+
     public String handToString() {
         String s="";
         for (Card c:hand) {
@@ -60,11 +67,12 @@ public class Player {
     }
 
     public void evaluateHandRank(){
+        Collections.sort(hand);
+
         Arrays.fill(cardCounter,0);
         Arrays.fill(suitCounter,0);
         Arrays.fill(handFlags, false);
         handRank = handRanks[0];
-        lowCount = highCount = 0;
 
         for (int i=0; i<hand.size(); i++){
             Card currentCard = hand.get(i);
@@ -79,26 +87,28 @@ public class Player {
         int pairCount =0;
         for (int i = 0; i < cardCounter.length; i++) {
 
-            if (cardCounter[i] == 2)
+            if(cardCounter[i] == 2)
                 pairCount++;
-            handFlags[2] = (cardCounter[i] == 3);// three of a kind
-            handFlags[6] = (cardCounter[i] == 4);// four of a kind
+            if(cardCounter[i] == 3)
+                handFlags[2] = true;// three of a kind
+            if(cardCounter[i] == 4)
+                handFlags[6] = true;// four of a kind
         }
         if(pairCount != 0)
             handFlags[pairCount-1] = true; //pair and double pair
         handFlags[5] = (handFlags[0] && handFlags[2]); //full house
 
 
-
-        for (int i=cardCounter.length-1; i>= 0; i--){
-            if(cardCounter[lowAce[i]-1] == 1)
-                lowCount++;
-            if(cardCounter[highAce[i]-1] == 1)
-                highCount++;
+        int consecutive = 1;
+        for (int i=0; i< handSize-1; i++){
+            if(hand.get(0).getValue() == 1 && hand.get(4).getValue() ==13) {
+                consecutive++;
+                low = false;
+            }
+            else if(hand.get(i).getValue() == hand.get(i+1).getValue()-1)
+                consecutive++;
         }
-        handFlags[3] = (lowCount == 5);
-        handFlags[3] = (lowCount == 5);
-        low = (lowCount == 5);
+        handFlags[3] = (consecutive == 5);
 
         handFlags[7] = handFlags[4] && handFlags[3];
 
